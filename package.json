@@ -1,5 +1,5 @@
 {
-  "name": "wasmito-addr2line-bindings",
+  "name": "wasmito-addr2line",
   "description": "A JS available crate to generate source mappings, focussing on JS availability",
   "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
