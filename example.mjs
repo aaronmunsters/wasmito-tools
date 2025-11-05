@@ -1,3 +1,5 @@
+// replace "./pgk/..." with "wasmito-addr2line" after
+// installing through `npm install github:aaronmunsters/wasmito-addr2line#pkg`
 import { MappedModule } from "./pkg/wasmito_addr2line.js";
 
 const path = undefined;
@@ -27,15 +29,9 @@ for (let index; index < 4; index++) {
 }
 
 const mappings = module.addr2line_mappings();
-for (const mapping of mappings) {
-  console.log(`
-    ------------------------------------
-    mapping.offset: ${mapping.offset}
-      ==>
-        mapping.address: ${mapping.address}
-        mapping.range_size: ${mapping.range_size}
-        mapping.file: ${mapping.file}
-        mapping.line: ${mapping.line}
-        mapping.column: ${mapping.column}
-  `);
-}
+
+console.assert(mappings[5].address    === BigInt(10)     );
+console.assert(mappings[5].range_size === BigInt(1)      );
+console.assert(mappings[5].file       === "./<input>.wat");
+console.assert(mappings[5].line       === 11             );
+console.assert(mappings[5].column     === 5              );
