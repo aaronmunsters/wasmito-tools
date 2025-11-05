@@ -1,0 +1,7 @@
+allowed-duplicate-crates = [
+    "hashbrown",
+    "heck",
+    "indexmap",
+    "rand_core",
+    "windows-sys",
+]
