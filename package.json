@@ -1,6 +1,6 @@
 {
-  "name": "wasmito-addr2line",
-  "description": "A crate to generate source mappings, focussing on JS availability",
+  "name": "wasmito-addr2line-bindings",
+  "description": "A JS available crate to generate source mappings, focussing on JS availability",
   "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
   "repository": {
@@ -8,12 +8,12 @@
     "url": "https://github.com/aaronmunsters/wasmito-addr2line.git"
   },
   "files": [
-    "wasmito_addr2line_bg.wasm",
-    "wasmito_addr2line.js",
-    "wasmito_addr2line.d.ts"
+    "wasmito-addr2line_bg.wasm",
+    "wasmito-addr2line.js",
+    "wasmito-addr2line.d.ts"
   ],
-  "main": "wasmito_addr2line.js",
-  "types": "wasmito_addr2line.d.ts",
+  "main": "wasmito-addr2line.js",
+  "types": "wasmito-addr2line.d.ts",
   "keywords": [
     "wasm",
     "dwarf",
