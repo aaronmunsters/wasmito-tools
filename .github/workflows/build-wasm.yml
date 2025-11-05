@@ -40,6 +40,7 @@ jobs:
         node -e "
         const fs = require('fs');
         const pkg = JSON.parse(fs.readFileSync('package.json'));
+        pkg.name = 'wasmito-addr2line';
         pkg.repository = {
           type: 'git',
           url: 'https://github.com/${{ github.repository }}.git'
