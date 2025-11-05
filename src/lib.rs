@@ -171,6 +171,11 @@ macro_rules! location {
     };
 }
 
+pub(crate) struct CodeSectionInformation {
+    pub(crate) start_offset: usize,
+    pub(crate) size: u32,
+}
+
 impl MappedModule {
     fn from_wat_private(path: Option<&Path>, wat: &str) -> Result<Self, error::WatParseError> {
         // Configure new parser with Dwarf support
@@ -210,23 +215,25 @@ impl MappedModule {
         let mut addr2line_modules = Addr2lineModules::parse(module)
             .map_err(|reason| error::Error::Wasmparser(reason.to_string()))?;
 
-        let code_section_relative = true;
-        let beginning_of_code_section = 0;
-        let relative_end_of_code_section = self.determine_code_section_size().unwrap();
+        let code_section_relative = false;
+        let CodeSectionInformation {
+            start_offset: code_section_start_offset,
+            size: code_section_size,
+        } = self.determine_code_section_size().unwrap();
         let (ctx, text_relative_address) = addr2line_modules
-            .context(beginning_of_code_section, code_section_relative)
+            .context(code_section_start_offset as u64, code_section_relative)
             .map_err(|reason| error::Error::ContextCreation1(reason.to_string()))?
             .ok_or_else(|| error::Error::ContextCreation2(Box::from(location!())))?;
 
         let mut mappings = vec![];
 
         for (address, range_size, location) in ctx
-            .find_location_range(text_relative_address, relative_end_of_code_section.into())
+            .find_location_range(text_relative_address, code_section_size.into())
             .map_err(|reason| error::Error::FindTextOffset1(reason.to_string()))?
         {
             let location: Location = location.into();
             let mapping = Mapping {
-                address,
+                address: code_section_start_offset as u64 + address,
                 range_size,
                 location,
             };
@@ -236,7 +243,7 @@ impl MappedModule {
         Ok(mappings)
     }
 
-    fn determine_code_section_size(&self) -> Result<u32, error::Error> {
+    fn determine_code_section_size(&self) -> Result<CodeSectionInformation, error::Error> {
         let Self(module) = self;
 
         // Parse the module to find valid code offsets
@@ -248,8 +255,12 @@ impl MappedModule {
                 Err(reason) => return Err(error::Error::Wasmparser(reason.to_string())),
             };
 
-            if let wasmparser::Payload::CodeSectionStart { size, .. } = payload {
-                return Ok(size);
+            if let wasmparser::Payload::CodeSectionStart { size, range, .. } = payload {
+                let info = CodeSectionInformation {
+                    start_offset: range.start,
+                    size,
+                };
+                return Ok(info);
             }
         }
 
