@@ -4,6 +4,7 @@ Enables the use of addr2line from JavaScript directly rather than going through 
 
 ## Example usage
 
-```js
-import * as wasmito_addr2line from "./pkg/wasmito_addr2line";
+```bash
+# Using NPM
+npm install github:aaronmunsters/wasmito-addr2line#pkg
 ```
