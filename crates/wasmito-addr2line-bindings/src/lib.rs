@@ -134,6 +134,9 @@ impl Module {
 
     /// # Errors
     /// In the case mapping fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     #[wasm_bindgen]
     pub fn addr2line(&self, byte_offset: u64) -> Result<Location, Addr2lineError> {
         let Self(module) = self;
@@ -145,6 +148,9 @@ impl Module {
 
     /// # Errors
     /// In the case mapping fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     #[wasm_bindgen]
     pub fn addr2line_mappings(&self) -> Result<Vec<Mapping>, Addr2lineError> {
         let Self(module) = self;
@@ -154,6 +160,9 @@ impl Module {
 
     /// # Errors
     /// In the case mapping fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     #[wasm_bindgen]
     pub fn files(&self) -> Result<Vec<String>, Addr2lineError> {
         let Self(module) = self;

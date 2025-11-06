@@ -82,6 +82,9 @@ impl Module {
 
     /// # Errors
     /// In the case parsing fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     pub fn addr2line(&self, byte_address: u64) -> Result<Location, error::Error> {
         let Self(module) = self;
         let mut addr2line_modules = Addr2lineModules::parse(module)
@@ -104,6 +107,9 @@ impl Module {
 
     /// # Errors
     /// In the case parsing fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     pub fn mappings(&self) -> Result<Vec<Mapping>, error::Error> {
         let Self(module) = self;
         let mut addr2line_modules = Addr2lineModules::parse(module)
@@ -141,6 +147,9 @@ impl Module {
     ///
     /// # Errors
     /// In the case parsing fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
     pub fn files(&self) -> Result<Set<String>, error::Error> {
         let mappings = self.mappings()?;
         let files = mappings
