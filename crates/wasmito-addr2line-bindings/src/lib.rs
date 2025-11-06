@@ -89,10 +89,10 @@ impl ParseError {
 }
 
 #[wasm_bindgen]
-pub struct Error(wasmito_addr2line::error::Error);
+pub struct Addr2lineError(wasmito_addr2line::error::Error);
 
 #[wasm_bindgen]
-impl Error {
+impl Addr2lineError {
     #[wasm_bindgen(getter)]
     #[must_use]
     pub fn context(&self) -> String {
@@ -132,17 +132,20 @@ impl Module {
     /// # Errors
     /// In the case mapping fails, cf. <Error> on retrieving the error info.
     #[wasm_bindgen]
-    pub fn addr2line(self, byte_offset: u64) -> Result<Location, Error> {
+    pub fn addr2line(self, byte_offset: u64) -> Result<Location, Addr2lineError> {
         let Self(module) = self;
-        module.addr2line(byte_offset).map(Location).map_err(Error)
+        module
+            .addr2line(byte_offset)
+            .map(Location)
+            .map_err(Addr2lineError)
     }
 
     /// # Errors
     /// In the case mapping fails, cf. <Error> on retrieving the error info.
     #[wasm_bindgen]
-    pub fn addr2line_mappings(self) -> Result<Vec<Mapping>, Error> {
+    pub fn addr2line_mappings(self) -> Result<Vec<Mapping>, Addr2lineError> {
         let Self(module) = self;
-        let mappings = module.mappings().map_err(Error)?;
+        let mappings = module.mappings().map_err(Addr2lineError)?;
         Ok(mappings.into_iter().map(Mapping).collect())
     }
 }
