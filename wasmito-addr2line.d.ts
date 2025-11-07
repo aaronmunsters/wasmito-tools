@@ -65,3 +65,18 @@ export class ParseError {
   [Symbol.dispose](): void;
   readonly context: string;
 }
+export class StripConfig {
+  free(): void;
+  [Symbol.dispose](): void;
+  constructor(all: boolean, to_delete: string[]);
+  /**
+   * # Errors
+   * In the case parsing fails, cf. <Error> on retrieving the error info.
+   */
+  strip(module: Uint8Array): Uint8Array;
+}
+export class StripError {
+  private constructor();
+  free(): void;
+  [Symbol.dispose](): void;
+}
