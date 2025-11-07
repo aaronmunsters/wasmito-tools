@@ -1,11 +1,11 @@
 [package]
-name = "wasmito-addr2line-bindings"
+name = "wasmito-tools-bindings"
 version = "0.1.0"
 edition = "2024"
 
 description = "A JS available crate to generate source mappings, focussing on JS availability"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/aaronmunsters/wasmito-addr2line"
+repository = "https://github.com/aaronmunsters/wasmito-tools"
 readme = "README.md"
 keywords = ["wasm", "dwarf", "source-mappings"]
 categories = [

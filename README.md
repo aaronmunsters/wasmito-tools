@@ -6,14 +6,14 @@ Enables the use of functionality from `wasm-tools`, such as addr2line from JavaS
 
 ```bash
 # Using NPM
-npm install github:aaronmunsters/wasmito-addr2line#pkg
+npm install github:aaronmunsters/wasmito-tools#pkg
 ```
 
 After which you can call the module and use its functionality.
 For example:
 
 ```js
-import { Module, StripConfig } from "wasmito-addr2line";
+import { Module, StripConfig } from "wasmito-tools";
 
 const path = undefined; // can be "/path/to/your/module.wasm", used for generating DWARF
 const wasm_module = Module.from_wat(path, `(module ...)`);

@@ -1,5 +1,5 @@
 use anyhow::Result;
-use wasmito_addr2line_bindings::Module;
+use wasmito_tools_bindings::Module;
 
 #[test]
 fn test_move_semantics() -> Result<()> {

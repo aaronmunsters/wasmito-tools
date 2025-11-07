@@ -1,7 +1,7 @@
 wasm-pack build                         \
-    --out-name wasmito-addr2line        \
+    --out-name wasmito-tools        \
     --target nodejs                     \
     --dev                               \
     --no-opt                            \
     --out-dir ../../pkg                 \
-    ./crates/wasmito-addr2line-bindings
+    ./crates/wasmito-tools-bindings

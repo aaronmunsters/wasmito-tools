@@ -6,7 +6,7 @@ edition = "2024"
 
 description = "A crate to strip custom sections from a wasm binary"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/aaronmunsters/wasmito-addr2line"
+repository = "https://github.com/aaronmunsters/wasmito-tools"
 readme = "README.md"
 keywords = ["wasm", "dwarf", "source-mappings"]
 categories = [
