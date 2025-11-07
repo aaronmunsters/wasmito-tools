@@ -181,6 +181,16 @@ impl Module {
 pub struct StripError(wasmito_strip::error::Error);
 
 #[wasm_bindgen]
+impl StripError {
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn context(&self) -> String {
+        let Self(reason) = self;
+        format!("{reason:?}")
+    }
+}
+
+#[wasm_bindgen]
 pub struct StripConfig(CoreStripConfig);
 
 #[wasm_bindgen]
