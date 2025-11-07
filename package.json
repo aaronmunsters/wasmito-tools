@@ -1,19 +1,19 @@
 {
-  "name": "wasmito-addr2line",
+  "name": "wasmito-tools",
   "description": "A JS available crate to generate source mappings, focussing on JS availability",
   "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aaronmunsters/wasmito-addr2line.git"
+    "url": "https://github.com/aaronmunsters/wasmito-tools.git"
   },
   "files": [
-    "wasmito-addr2line_bg.wasm",
-    "wasmito-addr2line.js",
-    "wasmito-addr2line.d.ts"
+    "wasmito-tools_bg.wasm",
+    "wasmito-tools.js",
+    "wasmito-tools.d.ts"
   ],
-  "main": "wasmito-addr2line.js",
-  "types": "wasmito-addr2line.d.ts",
+  "main": "wasmito-tools.js",
+  "types": "wasmito-tools.d.ts",
   "keywords": [
     "wasm",
     "dwarf",

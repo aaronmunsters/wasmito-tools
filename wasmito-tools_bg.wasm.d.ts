@@ -1,0 +1,38 @@
+/* tslint:disable */
+/* eslint-disable */
+export const __getrandom_v03_custom: (a: number, b: number) => number;
+export const __wbg_addr2lineerror_free: (a: number, b: number) => void;
+export const __wbg_location_free: (a: number, b: number) => void;
+export const __wbg_mapping_free: (a: number, b: number) => void;
+export const __wbg_module_free: (a: number, b: number) => void;
+export const __wbg_parseerror_free: (a: number, b: number) => void;
+export const __wbg_stripconfig_free: (a: number, b: number) => void;
+export const __wbg_striperror_free: (a: number, b: number) => void;
+export const addr2lineerror_context: (a: number) => [number, number];
+export const location_column: (a: number) => number;
+export const location_file: (a: number) => [number, number];
+export const location_line: (a: number) => number;
+export const mapping_address: (a: number) => bigint;
+export const mapping_column: (a: number) => number;
+export const mapping_file: (a: number) => [number, number];
+export const mapping_line: (a: number) => number;
+export const mapping_range_size: (a: number) => bigint;
+export const module_addr2line: (a: number, b: bigint) => [number, number, number];
+export const module_addr2line_mappings: (a: number) => [number, number, number, number];
+export const module_bytes: (a: number) => [number, number];
+export const module_files: (a: number) => [number, number, number, number];
+export const module_from_wat: (a: number, b: number, c: number, d: number) => [number, number, number];
+export const module_new: (a: number, b: number) => number;
+export const parseerror_context: (a: number) => [number, number];
+export const stripconfig_new: (a: number, b: number, c: number) => number;
+export const stripconfig_strip: (a: number, b: number, c: number) => [number, number, number, number];
+export const striperror_context: (a: number) => [number, number];
+export const memory: WebAssembly.Memory;
+export const __wbindgen_malloc: (a: number, b: number) => number;
+export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
+export const __wbindgen_externrefs: WebAssembly.Table;
+export const __wbindgen_free: (a: number, b: number, c: number) => void;
+export const __externref_table_alloc: () => number;
+export const __externref_table_dealloc: (a: number) => void;
+export const __externref_drop_slice: (a: number, b: number) => void;
+export const __wbindgen_start: () => void;
