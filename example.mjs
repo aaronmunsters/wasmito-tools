@@ -1,6 +1,6 @@
 // replace "./pgk/..." with "wasmito-addr2line" after
 // installing through `npm install github:aaronmunsters/wasmito-addr2line#pkg`
-import { Module } from "./pkg/wasmito-addr2line.js";
+import { Module, StripConfig } from "./pkg/wasmito-addr2line.js";
 
 const path = undefined;
 const module = Module.from_wat(
@@ -35,3 +35,7 @@ console.assert(mappings[5].range_size === BigInt(1));
 console.assert(mappings[5].file === "./<input>.wat");
 console.assert(mappings[5].line === 11);
 console.assert(mappings[5].column === 5);
+
+const module_including_dwarf = module;
+const stripped = new StripConfig(true, []).strip(module_including_dwarf.bytes);
+console.assert(stripped.length < module_including_dwarf.bytes.length);

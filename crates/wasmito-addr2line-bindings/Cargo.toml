@@ -22,6 +22,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 wasm-bindgen = "0.2"
 wasmito-addr2line = { path = "../wasmito-addr2line" }
+wasmito-strip = { path = "../wasmito-strip" }
 thiserror = { version = "2" }
 
 [dependencies.getrandom]

@@ -5,6 +5,8 @@ use wasmito_addr2line::Location as CoreLocation;
 use wasmito_addr2line::Mapping as CoreMapping;
 use wasmito_addr2line::Module as CoreModule;
 
+use wasmito_strip::Config as CoreStripConfig;
+
 #[wasm_bindgen]
 pub struct Mapping(CoreMapping);
 
@@ -170,6 +172,31 @@ impl Module {
             .files()
             .map(|files| files.into_iter().collect())
             .map_err(Addr2lineError)
+    }
+}
+
+#[wasm_bindgen]
+#[derive(Debug, thiserror::Error)]
+#[error("StripError({0})")]
+pub struct StripError(wasmito_strip::error::Error);
+
+#[wasm_bindgen]
+pub struct StripConfig(CoreStripConfig);
+
+#[wasm_bindgen]
+impl StripConfig {
+    #[wasm_bindgen(constructor)]
+    #[must_use]
+    pub fn new(all: bool, to_delete: Vec<String>) -> Self {
+        Self(CoreStripConfig::new(all, to_delete))
+    }
+
+    /// # Errors
+    /// In the case parsing fails, cf. <Error> on retrieving the error info.
+    #[wasm_bindgen]
+    pub fn strip(&self, module: Vec<u8>) -> Result<Vec<u8>, StripError> {
+        let Self(config) = self;
+        config.strip(module).map_err(StripError)
     }
 }
 
