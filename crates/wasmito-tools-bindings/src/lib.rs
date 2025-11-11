@@ -3,8 +3,11 @@ use std::path::PathBuf;
 use wasm_bindgen::prelude::*;
 use wasmito_addr2line::Location as CoreLocation;
 use wasmito_addr2line::Mapping as CoreMapping;
+use wasmito_addr2line::MappingWithInstructions as CoreMappingWithInstructions;
 use wasmito_addr2line::Module as CoreModule;
+use wasmito_addr2line::PositionedInstruction as CorePositionedInstruction;
 
+use wasmito_addr2line::instruction::Instruction;
 use wasmito_strip::Config as CoreStripConfig;
 
 #[wasm_bindgen]
@@ -45,6 +48,81 @@ impl Mapping {
     pub fn column(&self) -> Option<u32> {
         let Self(mapping) = self;
         mapping.location.column
+    }
+}
+
+#[wasm_bindgen]
+pub struct MappingIncludingOffset(CoreMappingWithInstructions);
+
+#[wasm_bindgen]
+impl MappingIncludingOffset {
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn address(&self) -> u64 {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions.address_range.start
+    }
+
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn range_size(&self) -> u64 {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions.address_range.end - mapping_with_instructions.address_range.start
+    }
+
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn file(&self) -> Option<String> {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions.location.file.clone()
+    }
+
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn line(&self) -> Option<u32> {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions.location.line
+    }
+
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn column(&self) -> Option<u32> {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions.location.column
+    }
+
+    #[wasm_bindgen]
+    #[must_use]
+    pub fn instructions(&self) -> Vec<PositionedInstruction> {
+        let Self(mapping_with_instructions) = self;
+        mapping_with_instructions
+            .instructions
+            .iter()
+            .map(|instruction| PositionedInstruction(instruction.clone()))
+            .collect()
+    }
+}
+
+#[wasm_bindgen]
+pub struct PositionedInstruction(CorePositionedInstruction);
+
+#[wasm_bindgen]
+impl PositionedInstruction {
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn address(&self) -> usize {
+        let Self(positioned_instruction) = self;
+        positioned_instruction.address
+    }
+
+    #[wasm_bindgen(getter)]
+    #[must_use]
+    pub fn instr(&self) -> String {
+        let Self(positioned_instruction) = self;
+        match &positioned_instruction.instr {
+            Instruction::Body(instr) => instr.to_wat_instr().to_string(),
+            Instruction::Local(local) => format!("{local:?}"),
+        }
     }
 }
 
@@ -172,6 +250,22 @@ impl Module {
             .files()
             .map(|files| files.into_iter().collect())
             .map_err(Addr2lineError)
+    }
+
+    /// # Errors
+    /// In the case mapping fails, cf. <Error> on retrieving the error info.
+    ///
+    /// # Note
+    /// Cache successive calls to this method, its result does not change.
+    #[wasm_bindgen]
+    pub fn addr2line_mappings_with_offsets(
+        &self,
+    ) -> Result<Vec<MappingIncludingOffset>, Addr2lineError> {
+        let Self(module) = self;
+        let mappings = module
+            .mappings_including_instruction_offsets()
+            .map_err(Addr2lineError)?;
+        Ok(mappings.into_iter().map(MappingIncludingOffset).collect())
     }
 }
 

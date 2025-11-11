@@ -39,3 +39,31 @@ console.assert(mappings[5].column === 5);
 const module_including_dwarf = wasm_module;
 const stripped = new StripConfig(true, []).strip(module_including_dwarf.bytes);
 console.assert(stripped.length < module_including_dwarf.bytes.length);
+
+let mappings_with_offsets = wasm_module.addr2line_mappings_with_offsets();
+let buffer = `
+`;
+for (const mapping of mappings_with_offsets) {
+  const padded_line = String(mapping.line).padStart(2, "0");
+  const padded_column = String(mapping.column).padStart(2, "0");
+  buffer += `${mapping.file}:${padded_line}:${padded_column}`;
+  for (const i of mapping.instructions()) {
+    buffer += ` | 0x${i.address.toString(16)} | ${i.instr}\n`;
+  }
+}
+
+const expected_buffer = `
+./<input>.wat:06:05 | 0x31 | local.get
+./<input>.wat:07:05 | 0x33 | i32.eqz
+./<input>.wat:08:05 | 0x34 | if
+./<input>.wat:09:05 | 0x36 | i32.const
+./<input>.wat:10:05 | 0x38 | return
+./<input>.wat:11:05 | 0x39 | end
+./<input>.wat:12:05 | 0x3a | local.get
+./<input>.wat:13:05 | 0x3c | i32.const
+./<input>.wat:14:05 | 0x3e | i32.sub
+./<input>.wat:15:05 | 0x3f | call
+./<input>.wat:15:05 | 0x41 | end
+`;
+
+console.assert(expected_buffer === buffer);
