@@ -434,6 +434,101 @@ if (Symbol.dispose) Mapping.prototype[Symbol.dispose] = Mapping.prototype.free;
 
 exports.Mapping = Mapping;
 
+const MappingIncludingOffsetFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_mappingincludingoffset_free(ptr >>> 0, 1));
+
+class MappingIncludingOffset {
+
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(MappingIncludingOffset.prototype);
+        obj.__wbg_ptr = ptr;
+        MappingIncludingOffsetFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        MappingIncludingOffsetFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_mappingincludingoffset_free(ptr, 0);
+    }
+    /**
+     * @returns {bigint}
+     */
+    get range_size() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_range_size(this.__wbg_ptr);
+        return BigInt.asUintN(64, ret);
+    }
+    /**
+     * @returns {PositionedInstruction[]}
+     */
+    instructions() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_instructions(this.__wbg_ptr);
+        var v1 = getArrayJsValueFromWasm0(ret[0], ret[1]).slice();
+        wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
+        return v1;
+    }
+    /**
+     * @returns {string | undefined}
+     */
+    get file() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_file(this.__wbg_ptr);
+        let v1;
+        if (ret[0] !== 0) {
+            v1 = getStringFromWasm0(ret[0], ret[1]).slice();
+            wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
+        }
+        return v1;
+    }
+    /**
+     * @returns {number | undefined}
+     */
+    get line() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_line(this.__wbg_ptr);
+        return ret === 0x100000001 ? undefined : ret;
+    }
+    /**
+     * @returns {number | undefined}
+     */
+    get column() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_column(this.__wbg_ptr);
+        return ret === 0x100000001 ? undefined : ret;
+    }
+    /**
+     * @returns {bigint}
+     */
+    get address() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.mappingincludingoffset_address(this.__wbg_ptr);
+        return BigInt.asUintN(64, ret);
+    }
+}
+if (Symbol.dispose) MappingIncludingOffset.prototype[Symbol.dispose] = MappingIncludingOffset.prototype.free;
+
+exports.MappingIncludingOffset = MappingIncludingOffset;
+
 const ModuleFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_module_free(ptr >>> 0, 1));
@@ -471,6 +566,25 @@ class Module {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.module_addr2line_mappings(this.__wbg_ptr);
+        if (ret[3]) {
+            throw takeFromExternrefTable0(ret[2]);
+        }
+        var v1 = getArrayJsValueFromWasm0(ret[0], ret[1]).slice();
+        wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
+        return v1;
+    }
+    /**
+     * # Errors
+     * In the case mapping fails, cf. <Error> on retrieving the error info.
+     *
+     * # Note
+     * Cache successive calls to this method, its result does not change.
+     * @returns {MappingIncludingOffset[]}
+     */
+    addr2line_mappings_with_offsets() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.module_addr2line_mappings_with_offsets(this.__wbg_ptr);
         if (ret[3]) {
             throw takeFromExternrefTable0(ret[2]);
         }
@@ -612,6 +726,66 @@ if (Symbol.dispose) ParseError.prototype[Symbol.dispose] = ParseError.prototype.
 
 exports.ParseError = ParseError;
 
+const PositionedInstructionFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_positionedinstruction_free(ptr >>> 0, 1));
+
+class PositionedInstruction {
+
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(PositionedInstruction.prototype);
+        obj.__wbg_ptr = ptr;
+        PositionedInstructionFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        PositionedInstructionFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_positionedinstruction_free(ptr, 0);
+    }
+    /**
+     * @returns {string}
+     */
+    get instr() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+            _assertNum(this.__wbg_ptr);
+            const ret = wasm.positionedinstruction_instr(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * @returns {number}
+     */
+    get address() {
+        if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.__wbg_ptr);
+        const ret = wasm.positionedinstruction_address(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+}
+if (Symbol.dispose) PositionedInstruction.prototype[Symbol.dispose] = PositionedInstruction.prototype.free;
+
+exports.PositionedInstruction = PositionedInstruction;
+
 const StripConfigFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_stripconfig_free(ptr >>> 0, 1));
@@ -748,8 +922,18 @@ exports.__wbg_mapping_new = function() { return logError(function (arg0) {
     return ret;
 }, arguments) };
 
+exports.__wbg_mappingincludingoffset_new = function() { return logError(function (arg0) {
+    const ret = MappingIncludingOffset.__wrap(arg0);
+    return ret;
+}, arguments) };
+
 exports.__wbg_parseerror_new = function() { return logError(function (arg0) {
     const ret = ParseError.__wrap(arg0);
+    return ret;
+}, arguments) };
+
+exports.__wbg_positionedinstruction_new = function() { return logError(function (arg0) {
+    const ret = PositionedInstruction.__wrap(arg0);
     return ret;
 }, arguments) };
 

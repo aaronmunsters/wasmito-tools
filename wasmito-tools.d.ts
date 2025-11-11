@@ -24,6 +24,17 @@ export class Mapping {
   readonly column: number | undefined;
   readonly address: bigint;
 }
+export class MappingIncludingOffset {
+  private constructor();
+  free(): void;
+  [Symbol.dispose](): void;
+  instructions(): PositionedInstruction[];
+  readonly range_size: bigint;
+  readonly file: string | undefined;
+  readonly line: number | undefined;
+  readonly column: number | undefined;
+  readonly address: bigint;
+}
 export class Module {
   free(): void;
   [Symbol.dispose](): void;
@@ -35,6 +46,14 @@ export class Module {
    * Cache successive calls to this method, its result does not change.
    */
   addr2line_mappings(): Mapping[];
+  /**
+   * # Errors
+   * In the case mapping fails, cf. <Error> on retrieving the error info.
+   *
+   * # Note
+   * Cache successive calls to this method, its result does not change.
+   */
+  addr2line_mappings_with_offsets(): MappingIncludingOffset[];
   constructor(bytes: Uint8Array);
   /**
    * # Errors
@@ -64,6 +83,13 @@ export class ParseError {
   free(): void;
   [Symbol.dispose](): void;
   readonly context: string;
+}
+export class PositionedInstruction {
+  private constructor();
+  free(): void;
+  [Symbol.dispose](): void;
+  readonly instr: string;
+  readonly address: number;
 }
 export class StripConfig {
   free(): void;
