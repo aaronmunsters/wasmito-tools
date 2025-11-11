@@ -30,6 +30,8 @@ jobs:
           pre-commit --version
       - name: Install latest nextest release
         uses: taiki-e/install-action@nextest
+      - name: Install wasm-tools
+        run: cargo install wasm-tools
       - name: Run pre-commit on all files
         run: |
           pre-commit run --all-files --show-diff-on-failure
