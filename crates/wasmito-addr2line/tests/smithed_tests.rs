@@ -82,12 +82,14 @@ impl ToWat for Module {
         let temp_dir = tempdir()?;
         let temp_file_path = temp_dir.path().join("temp.wasm");
         let mut temp_file = File::create(&temp_file_path)?;
-        let temp_file_path_str = temp_file_path.as_os_str().display().to_string();
         temp_file.write_all(self.bytes())?;
-        let result = Command::new("wasm-tools")
-            .args(["print", &temp_file_path_str, "--print-offsets"])
-            .output()?
-            .stdout;
+        let output = Command::new("wasm-tools")
+            .args(["print", temp_file_path.to_str().unwrap(), "--print-offsets"])
+            .output()
+            .map_err(|err| anyhow::anyhow!("failed to run `wasm-tools`: {err}"))?;
+
+        let result = output.stdout;
+
         String::from_utf8(result).map_err(Into::into)
     }
 }
