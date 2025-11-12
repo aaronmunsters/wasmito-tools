@@ -61,7 +61,7 @@ fn round_trip_wasm_to_wat(module_bytes: Vec<u8>) -> Result<usize> {
                 bail!("{line_key:7} {{{wat_instruction:20}}} ({instr:20?}) -> {wat_line:?}");
             };
 
-            if let BodyInstruction::End | BodyInstruction::LocalGet = instr {
+            if let BodyInstruction::End = instr {
                 continue;
             }
 
