@@ -60,6 +60,25 @@ jobs:
       - name: Test with latest nextest release
         run: cargo nextest run --all-features
 
+  nodejs_test:
+    needs: pre-commit-hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update rustup
+        run: rustup update ${RUST_CHANNEL} && rustup default ${RUST_CHANNEL}
+      - name: Install wasm as a rust target
+        run: rustup target add wasm32-unknown-unknown
+        shell: bash
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+      - name: Install wasm-pack
+        run: cargo binstall wasm-pack --no-confirm
+      - name: Build with wasm-pack
+        run: bash ./package.sh
+      - name: run example.mjs
+        run: node example.mjs
+
   clippy_check:
     needs: pre-commit-hooks
     runs-on: ubuntu-latest
