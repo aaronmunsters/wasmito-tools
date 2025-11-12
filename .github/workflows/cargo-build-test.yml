@@ -9,10 +9,6 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: "-Dwarnings"
-  BINARYEN_VERSION: 121
-  BUN_VERSION: "v1.1.43"
-  ASSEMBLYSCRIPT_VERSION: "0.27.27"
-  RUST_CHANNEL: "nightly"
 
 jobs:
   pre-commit-hooks:
@@ -41,15 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update rustup
-        run: rustup update ${RUST_CHANNEL} && rustup default ${RUST_CHANNEL}
-      - name: Install wasm as a rust target
-        run: rustup target add wasm32-unknown-unknown
-        shell: bash
-      - name: Install Deno
-        uses: denoland/setup-deno@v1
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
         with:
-          deno-version: v2.1.5
+          targets: wasm32-unknown-unknown
       - name: Install wasm-tools
         run: cargo install wasm-tools
       - name: Build all targets with all features
@@ -65,11 +56,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update rustup
-        run: rustup update ${RUST_CHANNEL} && rustup default ${RUST_CHANNEL}
-      - name: Install wasm as a rust target
-        run: rustup target add wasm32-unknown-unknown
-        shell: bash
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
       - name: Install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
       - name: Install wasm-pack
@@ -84,13 +74,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update rustup
-        run: rustup update ${RUST_CHANNEL} && rustup default ${RUST_CHANNEL}
-      - name: Install clippy
-        run: rustup component add clippy
-      - name: Install wasm & wasip1 as a rust target
-        run: rustup target add wasm32-unknown-unknown wasm32-wasip1
-        shell: bash
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+          targets: wasm32-unknown-unknown
       - name: Lint (clippy)
         run: cargo clippy --all-features --all-targets
         shell: bash
