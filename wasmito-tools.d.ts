@@ -4,36 +4,36 @@ export class Addr2lineError {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  readonly context: string;
+  context(): string;
 }
 export class Location {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  readonly file: string | undefined;
-  readonly line: number | undefined;
-  readonly column: number | undefined;
+  file(): string | undefined;
+  line(): number | undefined;
+  column(): number | undefined;
 }
 export class Mapping {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  readonly range_size: bigint;
-  readonly file: string | undefined;
-  readonly line: number | undefined;
-  readonly column: number | undefined;
-  readonly address: bigint;
+  range_size(): bigint;
+  file(): string | undefined;
+  line(): number | undefined;
+  column(): number | undefined;
+  address(): bigint;
 }
 export class MappingIncludingOffset {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
+  range_size(): bigint;
   instructions(): PositionedInstruction[];
-  readonly range_size: bigint;
-  readonly file: string | undefined;
-  readonly line: number | undefined;
-  readonly column: number | undefined;
-  readonly address: bigint;
+  file(): string | undefined;
+  line(): number | undefined;
+  column(): number | undefined;
+  address(): bigint;
 }
 export class Module {
   free(): void;
@@ -55,6 +55,7 @@ export class Module {
    */
   addr2line_mappings_with_offsets(): MappingIncludingOffset[];
   constructor(bytes: Uint8Array);
+  bytes(): Uint8Array;
   /**
    * # Errors
    * In the case mapping fails, cf. <Error> on retrieving the error info.
@@ -76,20 +77,19 @@ export class Module {
    * Cache successive calls to this method, its result does not change.
    */
   addr2line(byte_offset: bigint): Location;
-  readonly bytes: Uint8Array;
 }
 export class ParseError {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  readonly context: string;
+  context(): string;
 }
 export class PositionedInstruction {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  readonly instr: string;
-  readonly address: number;
+  instr(): string;
+  address(): number;
 }
 export class StripConfig {
   free(): void;

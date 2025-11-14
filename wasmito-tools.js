@@ -265,7 +265,7 @@ class Addr2lineError {
     /**
      * @returns {string}
      */
-    get context() {
+    context() {
         let deferred1_0;
         let deferred1_1;
         try {
@@ -316,7 +316,7 @@ class Location {
     /**
      * @returns {string | undefined}
      */
-    get file() {
+    file() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.location_file(this.__wbg_ptr);
@@ -330,7 +330,7 @@ class Location {
     /**
      * @returns {number | undefined}
      */
-    get line() {
+    line() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.location_line(this.__wbg_ptr);
@@ -339,7 +339,7 @@ class Location {
     /**
      * @returns {number | undefined}
      */
-    get column() {
+    column() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.location_column(this.__wbg_ptr);
@@ -382,7 +382,7 @@ class Mapping {
     /**
      * @returns {bigint}
      */
-    get range_size() {
+    range_size() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mapping_range_size(this.__wbg_ptr);
@@ -391,7 +391,7 @@ class Mapping {
     /**
      * @returns {string | undefined}
      */
-    get file() {
+    file() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mapping_file(this.__wbg_ptr);
@@ -405,7 +405,7 @@ class Mapping {
     /**
      * @returns {number | undefined}
      */
-    get line() {
+    line() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mapping_line(this.__wbg_ptr);
@@ -414,7 +414,7 @@ class Mapping {
     /**
      * @returns {number | undefined}
      */
-    get column() {
+    column() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mapping_column(this.__wbg_ptr);
@@ -423,7 +423,7 @@ class Mapping {
     /**
      * @returns {bigint}
      */
-    get address() {
+    address() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mapping_address(this.__wbg_ptr);
@@ -466,7 +466,7 @@ class MappingIncludingOffset {
     /**
      * @returns {bigint}
      */
-    get range_size() {
+    range_size() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mappingincludingoffset_range_size(this.__wbg_ptr);
@@ -486,7 +486,7 @@ class MappingIncludingOffset {
     /**
      * @returns {string | undefined}
      */
-    get file() {
+    file() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mappingincludingoffset_file(this.__wbg_ptr);
@@ -500,7 +500,7 @@ class MappingIncludingOffset {
     /**
      * @returns {number | undefined}
      */
-    get line() {
+    line() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mappingincludingoffset_line(this.__wbg_ptr);
@@ -509,7 +509,7 @@ class MappingIncludingOffset {
     /**
      * @returns {number | undefined}
      */
-    get column() {
+    column() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mappingincludingoffset_column(this.__wbg_ptr);
@@ -518,7 +518,7 @@ class MappingIncludingOffset {
     /**
      * @returns {bigint}
      */
-    get address() {
+    address() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.mappingincludingoffset_address(this.__wbg_ptr);
@@ -606,7 +606,7 @@ class Module {
     /**
      * @returns {Uint8Array}
      */
-    get bytes() {
+    bytes() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.module_bytes(this.__wbg_ptr);
@@ -707,7 +707,7 @@ class ParseError {
     /**
      * @returns {string}
      */
-    get context() {
+    context() {
         let deferred1_0;
         let deferred1_1;
         try {
@@ -758,7 +758,7 @@ class PositionedInstruction {
     /**
      * @returns {string}
      */
-    get instr() {
+    instr() {
         let deferred1_0;
         let deferred1_1;
         try {
@@ -775,7 +775,7 @@ class PositionedInstruction {
     /**
      * @returns {number}
      */
-    get address() {
+    address() {
         if (this.__wbg_ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.__wbg_ptr);
         const ret = wasm.positionedinstruction_address(this.__wbg_ptr);
