@@ -25,31 +25,34 @@ const wasm_module = Module.from_wat(
 );
 
 const wasm_magic_bytes = [0x00, 0x61, 0x73, 0x6D];
+const actual_bytes = wasm_module.bytes();
 wasm_magic_bytes.forEach((byte, byte_index) =>
-  assert.equal(byte, wasm_module.bytes[byte_index])
+  assert.equal(byte, actual_bytes[byte_index])
 );
 
 const mappings = wasm_module.addr2line_mappings();
 
-assert.equal(mappings[5].address, BigInt(57));
-assert.equal(mappings[5].range_size, BigInt(1));
-assert.equal(mappings[5].file, "./<input>.wat");
-assert.equal(mappings[5].line, 11);
-assert.equal(mappings[5].column, 5);
+assert.equal(mappings[5].address(), BigInt(57));
+assert.equal(mappings[5].range_size(), BigInt(1));
+assert.equal(mappings[5].file(), "./<input>.wat");
+assert.equal(mappings[5].line(), 11);
+assert.equal(mappings[5].column(), 5);
 
 const module_including_dwarf = wasm_module;
-const stripped = new StripConfig(true, []).strip(module_including_dwarf.bytes);
-assert(stripped.length < module_including_dwarf.bytes.length);
+const stripped = new StripConfig(true, []).strip(
+  module_including_dwarf.bytes(),
+);
+assert(stripped.length < module_including_dwarf.bytes().length);
 
 let mappings_with_offsets = wasm_module.addr2line_mappings_with_offsets();
 let buffer = `
 `;
 for (const mapping of mappings_with_offsets) {
-  const padded_line = String(mapping.line).padStart(2, "0");
-  const padded_column = String(mapping.column).padStart(2, "0");
-  buffer += `${mapping.file}:${padded_line}:${padded_column}`;
+  const padded_line = String(mapping.line()).padStart(2, "0");
+  const padded_column = String(mapping.column()).padStart(2, "0");
+  buffer += `${mapping.file()}:${padded_line}:${padded_column}`;
   for (const i of mapping.instructions()) {
-    buffer += ` | 0x${i.address.toString(16)} | ${i.instr}\n`;
+    buffer += ` | 0x${i.address().toString(16)} | ${i.instr()}\n`;
   }
 }
 

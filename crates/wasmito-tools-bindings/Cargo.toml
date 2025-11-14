@@ -24,6 +24,7 @@ wasm-bindgen = "0.2"
 wasmito-addr2line = { path = "../wasmito-addr2line" }
 wasmito-strip = { path = "../wasmito-strip" }
 thiserror = { version = "2" }
+derive_more = { version = "2", default-features = false, features = ["deref"] }
 
 [dependencies.getrandom]
 version = "0.3.4" # Included to register custom `rand` hook cf. `lib.rs`

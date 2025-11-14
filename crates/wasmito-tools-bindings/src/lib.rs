@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use wasm_bindgen::prelude::*;
+
 use wasmito_addr2line::Location as CoreLocation;
 use wasmito_addr2line::Mapping as CoreMapping;
 use wasmito_addr2line::MappingWithInstructions as CoreMappingWithInstructions;
@@ -11,92 +12,71 @@ use wasmito_addr2line::instruction::Instruction;
 use wasmito_strip::Config as CoreStripConfig;
 
 #[wasm_bindgen]
+#[derive(derive_more::Deref)]
 pub struct Mapping(CoreMapping);
 
 #[wasm_bindgen]
 impl Mapping {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn address(&self) -> u64 {
-        let Self(mapping) = self;
-        mapping.address
+        self.address
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn range_size(&self) -> u64 {
-        let Self(mapping) = self;
-        mapping.range_size
+        self.range_size
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn file(&self) -> Option<String> {
-        let Self(mapping) = self;
-        mapping.location.file.clone()
+        self.location.file.clone()
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn line(&self) -> Option<u32> {
-        let Self(mapping) = self;
-        mapping.location.line
+        self.location.line
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn column(&self) -> Option<u32> {
-        let Self(mapping) = self;
-        mapping.location.column
+        self.location.column
     }
 }
 
 #[wasm_bindgen]
+#[derive(derive_more::Deref)]
 pub struct MappingIncludingOffset(CoreMappingWithInstructions);
 
 #[wasm_bindgen]
 impl MappingIncludingOffset {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn address(&self) -> u64 {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions.address_range.start
+        self.address_range.start
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn range_size(&self) -> u64 {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions.address_range.end - mapping_with_instructions.address_range.start
+        self.address_range.end - self.address_range.start
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn file(&self) -> Option<String> {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions.location.file.clone()
+        self.location.file.clone()
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn line(&self) -> Option<u32> {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions.location.line
+        self.location.line
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn column(&self) -> Option<u32> {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions.location.column
+        self.location.column
     }
 
-    #[wasm_bindgen]
     #[must_use]
     pub fn instructions(&self) -> Vec<PositionedInstruction> {
-        let Self(mapping_with_instructions) = self;
-        mapping_with_instructions
-            .instructions
+        self.instructions
             .iter()
             .map(|instruction| PositionedInstruction(instruction.clone()))
             .collect()
@@ -104,22 +84,19 @@ impl MappingIncludingOffset {
 }
 
 #[wasm_bindgen]
+#[derive(derive_more::Deref)]
 pub struct PositionedInstruction(CorePositionedInstruction);
 
 #[wasm_bindgen]
 impl PositionedInstruction {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn address(&self) -> usize {
-        let Self(positioned_instruction) = self;
-        positioned_instruction.address
+        self.address
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn instr(&self) -> String {
-        let Self(positioned_instruction) = self;
-        match &positioned_instruction.instr {
+        match &self.instr {
             Instruction::Body(instr) => instr.to_wat_instr().to_string(),
             Instruction::Local(local) => format!("{local:?}"),
         }
@@ -127,30 +104,24 @@ impl PositionedInstruction {
 }
 
 #[wasm_bindgen]
-#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq, derive_more::Deref)]
 pub struct Location(CoreLocation);
 
 #[wasm_bindgen]
 impl Location {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn file(&self) -> Option<String> {
-        let Self(location) = self;
-        location.file.clone()
+        self.file.clone()
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn line(&self) -> Option<u32> {
-        let Self(location) = self;
-        location.line
+        self.line
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn column(&self) -> Option<u32> {
-        let Self(location) = self;
-        location.column
+        self.column
     }
 }
 
@@ -161,7 +132,6 @@ pub struct ParseError(wasmito_addr2line::error::WatParseError);
 
 #[wasm_bindgen]
 impl ParseError {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn context(&self) -> String {
         let Self(reason) = self;
@@ -176,7 +146,6 @@ pub struct Addr2lineError(wasmito_addr2line::error::Error);
 
 #[wasm_bindgen]
 impl Addr2lineError {
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn context(&self) -> String {
         let Self(reason) = self;
@@ -185,6 +154,7 @@ impl Addr2lineError {
 }
 
 #[wasm_bindgen]
+#[derive(derive_more::Deref)]
 pub struct Module(CoreModule);
 
 #[wasm_bindgen]
@@ -195,7 +165,6 @@ impl Module {
         Self(CoreModule::new(bytes))
     }
 
-    #[wasm_bindgen(getter)]
     #[must_use]
     pub fn bytes(&self) -> Vec<u8> {
         let Self(module) = self;
@@ -204,7 +173,6 @@ impl Module {
 
     /// # Errors
     /// In the case parsing fails, cf. <Error> on retrieving the error info.
-    #[wasm_bindgen]
     #[allow(clippy::needless_pass_by_value)] // reason: wasm_bindgen + lifetimes
     pub fn from_wat(path: Option<String>, wat: &str) -> Result<Self, ParseError> {
         let module = CoreModule::from_wat(path.as_deref().map(PathBuf::from).as_deref(), wat)
@@ -217,7 +185,6 @@ impl Module {
     ///
     /// # Note
     /// Cache successive calls to this method, its result does not change.
-    #[wasm_bindgen]
     pub fn addr2line(&self, byte_offset: u64) -> Result<Location, Addr2lineError> {
         let Self(module) = self;
         module
@@ -231,7 +198,6 @@ impl Module {
     ///
     /// # Note
     /// Cache successive calls to this method, its result does not change.
-    #[wasm_bindgen]
     pub fn addr2line_mappings(&self) -> Result<Vec<Mapping>, Addr2lineError> {
         let Self(module) = self;
         let mappings = module.mappings().map_err(Addr2lineError)?;
@@ -243,7 +209,6 @@ impl Module {
     ///
     /// # Note
     /// Cache successive calls to this method, its result does not change.
-    #[wasm_bindgen]
     pub fn files(&self) -> Result<Vec<String>, Addr2lineError> {
         let Self(module) = self;
         module
@@ -257,7 +222,6 @@ impl Module {
     ///
     /// # Note
     /// Cache successive calls to this method, its result does not change.
-    #[wasm_bindgen]
     pub fn addr2line_mappings_with_offsets(
         &self,
     ) -> Result<Vec<MappingIncludingOffset>, Addr2lineError> {
@@ -297,7 +261,6 @@ impl StripConfig {
 
     /// # Errors
     /// In the case parsing fails, cf. <Error> on retrieving the error info.
-    #[wasm_bindgen]
     pub fn strip(&self, module: Vec<u8>) -> Result<Vec<u8>, StripError> {
         let Self(config) = self;
         config.strip(module).map_err(StripError)
