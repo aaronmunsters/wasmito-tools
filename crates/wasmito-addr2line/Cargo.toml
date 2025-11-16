@@ -21,7 +21,7 @@ categories = [
 thiserror = { version = "2" }
 wasm-tools = { version = "1.240.0" }
 wat = { version = "1.240.0", features = ["dwarf"] }
-wasmparser = "0.240.0"
+wasmparser = "0.241"
 
 [dependencies.addr2line] # locked to that of `wat`, to ensure equal type
 version = "0.24.2"
@@ -31,7 +31,7 @@ anyhow = { version = "1" }
 
 rayon = { version = "1.11.0" }
 tempfile = "3.23.0"
-wasm-smith = { version = "0.240.0" }
+wasm-smith = { version = "0.241" }
 arbitrary = { version = "1.4.2" }
 rand = { version = "0.9.2" }
 rand_chacha = { version = "0.9.0" }
